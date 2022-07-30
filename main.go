@@ -1,11 +1,12 @@
 package main
 
 import (
-	"gin-chat-demo/conf"
+	"chat-demo/conf"
+	"chat-demo/router"
 )
 
 func main() {
 	conf.Init()
-	//cache.RedisInit()
-	//go service
+	r := router.NewRouter()
+	_ = r.Run(conf.HttpPort)
 }

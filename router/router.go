@@ -1,21 +1,20 @@
 package router
 
 import (
-	"gin-chat-demo/conf"
+	"chat-demo/api"
 	"github.com/gin-gonic/gin"
 )
 
 func NewRouter() *gin.Engine {
-	conf.Init()
+	//conf.Init()
 	r := gin.Default()
-	r.Use(gin.Recovery(), gin.Logger())
+	r.Use(gin.Recovery(), gin.Logger()) //异常恢复和日志 中间件。
 	v1 := r.Group("/")
 	{
 		v1.GET("ping", func(c *gin.Context) {
 			c.JSON(200, "SUCCESS")
 		})
-		//v1.POST("user/register", api.UserRegister)
-		//v1.GET("ws", service.WsHandler)
+		v1.POST("user/register", api.UserRegister)
 	}
 
 	return r

@@ -1,9 +1,9 @@
 package conf
 
 import (
+	"chat-demo/model"
 	"context"
 	"fmt"
-	"gin-chat-demo/model"
 	loggin "github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
