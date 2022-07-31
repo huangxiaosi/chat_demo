@@ -12,6 +12,8 @@ var DB *gorm.DB
 
 func Database(connstring string) {
 	db, err := gorm.Open("mysql", connstring)
+	//db, err := gorm.Open("mysql", "root:password@tcp(myserver.huang.com:3306)/chat_demo?charset=utf8&parseTime=True")
+	//db, err := gorm.Open("mysql", "root:password@tcp(47.106.212.35:3306)/chat_demo?charset=utf8&parseTime=True&loc=Local")
 	if err != nil {
 		fmt.Println(err)
 		panic("Mysql数据库连接错误。")

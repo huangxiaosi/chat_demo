@@ -38,7 +38,8 @@ func Init() {
 	LoadMongoDB(file)
 	MongoDB()
 
-	path := strings.Join([]string{DbUser, ":", DbPassWord, "@tcp(", DbHost, ":", DbPort, ")/", DbName, "?charset=utf8&parseTime=true"}, "")
+	path := strings.Join([]string{DbUser, ":", DbPassWord, "@tcp(", DbHost, ":", DbPort, ")/", DbName, "?charset=utf8&parseTime=True"}, "")
+	//fmt.Println(path)
 	model.Database(path)
 }
 
