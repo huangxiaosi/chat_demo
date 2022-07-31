@@ -1,6 +1,7 @@
 package conf
 
 import (
+	"chat-demo/cache"
 	"chat-demo/model"
 	"context"
 	"fmt"
@@ -37,6 +38,7 @@ func Init() {
 	LoadMySQL(file)
 	LoadMongoDB(file)
 	MongoDB()
+	cache.RedisInit()
 
 	path := strings.Join([]string{DbUser, ":", DbPassWord, "@tcp(", DbHost, ":", DbPort, ")/", DbName, "?charset=utf8&parseTime=True"}, "")
 	//fmt.Println(path)

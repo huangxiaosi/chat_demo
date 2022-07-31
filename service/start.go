@@ -56,9 +56,12 @@ func (manager *ClientManager) Start() {
 					}
 					msg, _ := json.Marshal(replyMsg)
 					_ = broadcase.Client.Socket.WriteMessage(websocket.TextMessage, msg)
+
 					err := InsertMsg(conf.MongoDBName, id, string(message), 1, int64(3*month)) //对方在线，状态1，默认消息已读
 					if err != nil {
 						fmt.Println("InsertOne Err:", err)
+					} else {
+						fmt.Println("mongo插入成功")
 					}
 				}
 			}

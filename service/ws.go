@@ -2,12 +2,14 @@ package service
 
 import (
 	"chat-demo/cache"
+	"chat-demo/conf"
 	"chat-demo/pkg/e"
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -128,6 +130,34 @@ func (c *Client) Read() {
 			Manager.Broadcase <- &Broadcase{
 				Client:  c,
 				Message: []byte(sendMsg.Content), //发送过来的消息
+			}
+		} else if sendMsg.Type == 2 {
+			// 获取历史消息
+			timeT, err := strconv.Atoi(sendMsg.Content)
+			if err != nil {
+				timeT = 999999
+			}
+			results, _ := FindMany(conf.MongoDBName, c.SendID, c.ID, int64(timeT), 10) //取10条里是消息。
+			fmt.Println(results)
+			if len(results) > 10 {
+				results = results[:10]
+			} else if len(results) == 0 {
+				replyMsg := ReplyMsg{
+					Code:    e.WebsocketEnd,
+					Content: "到底了",
+				}
+				msg, _ := json.Marshal(replyMsg)
+				_ = c.Socket.WriteMessage(websocket.TextMessage, msg)
+				continue
+			}
+			for _, result := range results {
+				replyMsg := ReplyMsg{
+					From:    result.From,
+					Content: result.Msg,
+				}
+				msg, _ := json.Marshal(replyMsg)
+				_ = c.Socket.WriteMessage(websocket.TextMessage, msg)
+
 			}
 		}
 	}
